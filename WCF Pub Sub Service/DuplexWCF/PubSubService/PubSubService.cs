@@ -31,20 +31,33 @@ namespace PubSubService
         IPubSubContract ServiceCallback = null;
         ValueChangeEventHandler ValueHandler = null;
 
-        public void Subscribe(string ID)
+        public List<string> ListAllPublishers()
         {
-            if (!listeningTo.Contains(ID))
-            {
-                listeningTo.Add(ID);
-            }
+            return _publishers;
         }
 
-        public void Unsubscribe(string ID)
+        public string Subscribe(string ID)
+        {
+            if (_publishers.Contains(ID))
+            {
+                if (!listeningTo.Contains(ID))
+                {
+                    listeningTo.Add(ID);
+                    return "Subscription to station " + ID + " successful";
+                }
+                return "You are already subscribed to station " + ID;
+            }
+            return "Subscription failed. There is no station with selected ID: " + ID;
+        }
+
+        public string Unsubscribe(string ID)
         {
             if (listeningTo.Contains(ID))
             {
                 listeningTo.Remove(ID);
+                return "Unsubscription from station " + ID + " successful";
             }
+            return "Unsubscription failed. You are not subscribed to station with selected ID: " + ID;
         }
 
         public void UnsubscribeAll()

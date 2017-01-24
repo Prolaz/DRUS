@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://ListPublishSubscribe.Service" elementFormDefault="qualified" targetNamespace="http://ListPublishSubscribe.Service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:element name="Subscribe">
     <xs:complexType>
       <xs:sequence>
@@ -9,7 +10,9 @@
   </xs:element>
   <xs:element name="SubscribeResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SubscribeResult" nillable="true" type="xs:string" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="Unsubscribe">
@@ -21,7 +24,9 @@
   </xs:element>
   <xs:element name="UnsubscribeResponse">
     <xs:complexType>
-      <xs:sequence />
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UnsubscribeResult" nillable="true" type="xs:string" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="UnsubscribeAll">
@@ -32,6 +37,18 @@
   <xs:element name="UnsubscribeAllResponse">
     <xs:complexType>
       <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllPublishers">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListAllPublishersResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ListAllPublishersResult" nillable="true" type="q1:ArrayOfstring" />
+      </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="PublisherInit">

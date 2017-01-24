@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Service References\PubSubServiceReference\Arrays.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\PubSubServiceReference\ListPublishSubscribe.Service.wsdl" />
     <None Include="Service References\PubSubServiceReference\ListPublishSubscribe.Service.xsd">
       <SubType>Designer</SubType>

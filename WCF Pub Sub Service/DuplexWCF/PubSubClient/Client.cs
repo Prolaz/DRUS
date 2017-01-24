@@ -27,15 +27,32 @@ namespace PubSubClient
         {
             context = new InstanceContext(new ServiceCallback());
             client = new PubSubServiceReference.PubSubServiceClient(context);
+            string[] publishers = client.ListAllPublishers();
 
             MyEventCallbackHandler callbackHandler = new MyEventCallbackHandler(Print);
             MyEventCallbackEvent += callbackHandler;
 
-            Console.WriteLine("Enter publisher ID: ");
-            string ID = Console.ReadLine();
-            client.Subscribe(ID);
+            string reply = "y";
+
+            while (reply.Contains('y'))
+            {
+                Console.WriteLine("List of stations by ID:");
+
+                for (int i = 0; i < publishers.Length; i++ )
+                {
+                    Console.WriteLine("{0}. {1}", i, publishers[i]);
+                }
+
+                Console.WriteLine("Enter station ID: ");
+                string ID = Console.ReadLine();
+                string msg = client.Subscribe(ID);
+                Console.WriteLine(msg);
+                Console.WriteLine("Do you want to add another station?[y/n]");
+                reply = Console.ReadLine();
+            }
+
             client.ClientInit();
-            Console.WriteLine("Client ready, choosing publishers...");
+            Console.WriteLine("Client ready, starting transmision...");
         }
 
         public void Print(string Id, int Value)
