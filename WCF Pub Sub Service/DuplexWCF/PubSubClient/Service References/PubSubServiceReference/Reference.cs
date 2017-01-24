@@ -16,22 +16,34 @@ namespace PubSubClient.PubSubServiceReference {
     public interface IPubSubService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/Subscribe", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/SubscribeResponse")]
-        void Subscribe();
+        void Subscribe(string ID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/Subscribe", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/SubscribeResponse")]
-        System.Threading.Tasks.Task SubscribeAsync();
+        System.Threading.Tasks.Task SubscribeAsync(string ID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/Unsubscribe", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeResponse")]
-        void Unsubscribe();
+        void Unsubscribe(string ID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/Unsubscribe", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeResponse")]
-        System.Threading.Tasks.Task UnsubscribeAsync();
+        System.Threading.Tasks.Task UnsubscribeAsync(string ID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAll", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAllResponse")]
+        void UnsubscribeAll();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAll", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAllResponse")]
+        System.Threading.Tasks.Task UnsubscribeAllAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublisherInitResponse")]
         string PublisherInit(string Ime, string Lokacija);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublisherInitResponse")]
         System.Threading.Tasks.Task<string> PublisherInitAsync(string Ime, string Lokacija);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/ClientInitResponse")]
+        void ClientInit();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/ClientInitResponse")]
+        System.Threading.Tasks.Task ClientInitAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChange", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChangeResponse")]
         void PublishValueChange(string Id, int Value);
@@ -75,20 +87,28 @@ namespace PubSubClient.PubSubServiceReference {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public void Subscribe() {
-            base.Channel.Subscribe();
+        public void Subscribe(string ID) {
+            base.Channel.Subscribe(ID);
         }
         
-        public System.Threading.Tasks.Task SubscribeAsync() {
-            return base.Channel.SubscribeAsync();
+        public System.Threading.Tasks.Task SubscribeAsync(string ID) {
+            return base.Channel.SubscribeAsync(ID);
         }
         
-        public void Unsubscribe() {
-            base.Channel.Unsubscribe();
+        public void Unsubscribe(string ID) {
+            base.Channel.Unsubscribe(ID);
         }
         
-        public System.Threading.Tasks.Task UnsubscribeAsync() {
-            return base.Channel.UnsubscribeAsync();
+        public System.Threading.Tasks.Task UnsubscribeAsync(string ID) {
+            return base.Channel.UnsubscribeAsync(ID);
+        }
+        
+        public void UnsubscribeAll() {
+            base.Channel.UnsubscribeAll();
+        }
+        
+        public System.Threading.Tasks.Task UnsubscribeAllAsync() {
+            return base.Channel.UnsubscribeAllAsync();
         }
         
         public string PublisherInit(string Ime, string Lokacija) {
@@ -97,6 +117,14 @@ namespace PubSubClient.PubSubServiceReference {
         
         public System.Threading.Tasks.Task<string> PublisherInitAsync(string Ime, string Lokacija) {
             return base.Channel.PublisherInitAsync(Ime, Lokacija);
+        }
+        
+        public void ClientInit() {
+            base.Channel.ClientInit();
+        }
+        
+        public System.Threading.Tasks.Task ClientInitAsync() {
+            return base.Channel.ClientInitAsync();
         }
         
         public void PublishValueChange(string Id, int Value) {

@@ -18,11 +18,23 @@
   <wsdl:message name="IPubSubService_Unsubscribe_OutputMessage">
     <wsdl:part name="parameters" element="tns:UnsubscribeResponse" />
   </wsdl:message>
+  <wsdl:message name="IPubSubService_UnsubscribeAll_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribeAll" />
+  </wsdl:message>
+  <wsdl:message name="IPubSubService_UnsubscribeAll_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribeAllResponse" />
+  </wsdl:message>
   <wsdl:message name="IPubSubService_PublisherInit_InputMessage">
     <wsdl:part name="parameters" element="tns:PublisherInit" />
   </wsdl:message>
   <wsdl:message name="IPubSubService_PublisherInit_OutputMessage">
     <wsdl:part name="parameters" element="tns:PublisherInitResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPubSubService_ClientInit_InputMessage">
+    <wsdl:part name="parameters" element="tns:ClientInit" />
+  </wsdl:message>
+  <wsdl:message name="IPubSubService_ClientInit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ClientInitResponse" />
   </wsdl:message>
   <wsdl:message name="IPubSubService_PublishValueChange_InputMessage">
     <wsdl:part name="parameters" element="tns:PublishValueChange" />
@@ -42,9 +54,17 @@
       <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/Unsubscribe" message="tns:IPubSubService_Unsubscribe_InputMessage" />
       <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeResponse" message="tns:IPubSubService_Unsubscribe_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UnsubscribeAll">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAll" message="tns:IPubSubService_UnsubscribeAll_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAllResponse" message="tns:IPubSubService_UnsubscribeAll_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PublisherInit">
       <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInit" message="tns:IPubSubService_PublisherInit_InputMessage" />
       <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInitResponse" message="tns:IPubSubService_PublisherInit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ClientInit">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInit" message="tns:IPubSubService_ClientInit_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInitResponse" message="tns:IPubSubService_ClientInit_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PublishValueChange">
       <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChange" message="tns:IPubSubService_PublishValueChange_InputMessage" />

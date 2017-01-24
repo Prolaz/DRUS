@@ -31,16 +31,32 @@ namespace PubSubService
         IPubSubContract ServiceCallback = null;
         ValueChangeEventHandler ValueHandler = null;
 
-        public void Subscribe()
+        public void Subscribe(string ID)
+        {
+            if (!listeningTo.Contains(ID))
+            {
+                listeningTo.Add(ID);
+            }
+        }
+
+        public void Unsubscribe(string ID)
+        {
+            if (listeningTo.Contains(ID))
+            {
+                listeningTo.Remove(ID);
+            }
+        }
+
+        public void UnsubscribeAll()
+        {
+            ValueChangeEvent -= ValueHandler;
+        }
+
+        public void ClientInit()
         {
             ServiceCallback = OperationContext.Current.GetCallbackChannel<IPubSubContract>();
             ValueHandler = new ValueChangeEventHandler(PublishValueChangeHandler);
             ValueChangeEvent += ValueHandler;
-        }
-
-        public void Unsubscribe()
-        {
-            ValueChangeEvent -= ValueHandler;
         }
 
         public string PublisherInit(string Ime, string Lokacija)
@@ -71,8 +87,10 @@ namespace PubSubService
 
         public void PublishValueChangeHandler(object sender, ServiceEventArgs se)
         {
-            ServiceCallback.ValueChange(se.Id, se.Value);
-
+            if (listeningTo.Contains(se.Id))
+            {
+                ServiceCallback.ValueChange(se.Id, se.Value);
+            }
         }
 
         public class ServiceEventArgs : EventArgs

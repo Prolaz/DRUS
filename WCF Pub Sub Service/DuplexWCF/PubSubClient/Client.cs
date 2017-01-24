@@ -25,14 +25,17 @@ namespace PubSubClient
 
         public Client()
         {
-            InstanceContext context = new InstanceContext(new ServiceCallback());
-            PubSubServiceReference.PubSubServiceClient client = new PubSubServiceReference.PubSubServiceClient(context);
+            context = new InstanceContext(new ServiceCallback());
+            client = new PubSubServiceReference.PubSubServiceClient(context);
 
             MyEventCallbackHandler callbackHandler = new MyEventCallbackHandler(Print);
             MyEventCallbackEvent += callbackHandler;
 
-            client.Subscribe();
-            Console.WriteLine("Client ready...");
+            Console.WriteLine("Enter publisher ID: ");
+            string ID = Console.ReadLine();
+            client.Subscribe(ID);
+            client.ClientInit();
+            Console.WriteLine("Client ready, choosing publishers...");
         }
 
         public void Print(string Id, int Value)
@@ -42,7 +45,7 @@ namespace PubSubClient
 
         public void Close()
         {
-            client.Unsubscribe();
+            client.UnsubscribeAll();
         }
     }
 }

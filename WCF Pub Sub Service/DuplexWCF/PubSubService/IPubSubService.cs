@@ -12,11 +12,15 @@ namespace PubSubService
     public interface IPubSubService
     {
         [OperationContract(IsOneWay = false, IsInitiating=true)]
-        void Subscribe();
+        void Subscribe(string ID);
         [OperationContract(IsOneWay = false, IsInitiating=true)]
-        void Unsubscribe();
+        void Unsubscribe(string ID);
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void UnsubscribeAll();
         [OperationContract(IsOneWay = false, IsInitiating = true)]
         string PublisherInit(string Ime, string Lokacija);
+        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        void ClientInit();
         [OperationContract(IsOneWay = false)]
         void PublishValueChange(string Id, int Value);
     }
