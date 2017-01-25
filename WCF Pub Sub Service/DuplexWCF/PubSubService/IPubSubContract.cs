@@ -10,6 +10,6 @@ namespace PubSubService
     public interface IPubSubContract
     {
         [OperationContract(IsOneWay = true)]
-        void ValueChange(string Id, int Value);
+        void ValueChange(string Id, string Type, int Value);
     }
 }

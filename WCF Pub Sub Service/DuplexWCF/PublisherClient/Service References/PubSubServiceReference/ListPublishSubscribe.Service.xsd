@@ -80,6 +80,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="Value" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
@@ -93,6 +94,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="Id" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="Value" type="xs:int" />
       </xs:sequence>
     </xs:complexType>

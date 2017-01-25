@@ -24,6 +24,6 @@ namespace PubSubService
         [OperationContract(IsOneWay = false, IsInitiating = true)]
         void ClientInit();
         [OperationContract(IsOneWay = false)]
-        void PublishValueChange(string Id, int Value);
+        void PublishValueChange(string Id, string Type, int Value);
     }
 }

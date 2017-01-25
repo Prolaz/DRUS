@@ -33,19 +33,25 @@ namespace PubSubService
 
         public List<string> ListAllPublishers()
         {
-            return _publishers;
+            lock (_publishers)
+            {
+                return _publishers;
+            }
         }
 
         public string Subscribe(string ID)
         {
-            if (_publishers.Contains(ID))
+            lock (_publishers)
             {
-                if (!listeningTo.Contains(ID))
+                if (_publishers.Contains(ID))
                 {
-                    listeningTo.Add(ID);
-                    return "Subscription to station " + ID + " successful";
+                    if (!listeningTo.Contains(ID))
+                    {
+                        listeningTo.Add(ID);
+                        return "Subscription to station " + ID + " successful";
+                    }
+                    return "You are already subscribed to station " + ID;
                 }
-                return "You are already subscribed to station " + ID;
             }
             return "Subscription failed. There is no station with selected ID: " + ID;
         }
@@ -72,9 +78,9 @@ namespace PubSubService
             ValueChangeEvent += ValueHandler;
         }
 
-        public string PublisherInit(string Ime, string Lokacija)
+        public string PublisherInit(string Name, string Location)
         {
-            string ID = Ime + Lokacija;
+            string ID = Name + Location;
 
             lock (_publishers)
             {
@@ -87,10 +93,11 @@ namespace PubSubService
             return ID;
         }
 
-        public void PublishValueChange(string Id, int Value)
+        public void PublishValueChange(string Id, string Type, int Value)
         {
             ServiceEventArgs se = new ServiceEventArgs();
             se.Id = Id;
+            se.Type = Type;
             se.Value = Value;
             //Measurements[Id] = Value;
 
@@ -102,13 +109,14 @@ namespace PubSubService
         {
             if (listeningTo.Contains(se.Id))
             {
-                ServiceCallback.ValueChange(se.Id, se.Value);
+                ServiceCallback.ValueChange(se.Id, se.Type, se.Value);
             }
         }
 
         public class ServiceEventArgs : EventArgs
         {
             public string Id { get; set; }
+            public string Type { get; set; }
             public int Value { get; set; }
         }
     }

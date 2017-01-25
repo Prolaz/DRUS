@@ -52,17 +52,17 @@ namespace PubSubClient.PubSubServiceReference {
         System.Threading.Tasks.Task ClientInitAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChange", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChangeResponse")]
-        void PublishValueChange(string Id, int Value);
+        void PublishValueChange(string Id, string Type, int Value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChange", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChangeResponse")]
-        System.Threading.Tasks.Task PublishValueChangeAsync(string Id, int Value);
+        System.Threading.Tasks.Task PublishValueChangeAsync(string Id, string Type, int Value);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IPubSubServiceCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://ListPublishSubscribe.Service/IPubSubService/ValueChange")]
-        void ValueChange(string Id, int Value);
+        void ValueChange(string Id, string Type, int Value);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -141,12 +141,12 @@ namespace PubSubClient.PubSubServiceReference {
             return base.Channel.ClientInitAsync();
         }
         
-        public void PublishValueChange(string Id, int Value) {
-            base.Channel.PublishValueChange(Id, Value);
+        public void PublishValueChange(string Id, string Type, int Value) {
+            base.Channel.PublishValueChange(Id, Type, Value);
         }
         
-        public System.Threading.Tasks.Task PublishValueChangeAsync(string Id, int Value) {
-            return base.Channel.PublishValueChangeAsync(Id, Value);
+        public System.Threading.Tasks.Task PublishValueChangeAsync(string Id, string Type, int Value) {
+            return base.Channel.PublishValueChangeAsync(Id, Type, Value);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace PubSubClient
 {
     public class Client
     {
-        public delegate void MyEventCallbackHandler(string Id, int Value);
+        public delegate void MyEventCallbackHandler(string Id, string Type, int Value);
         public static event MyEventCallbackHandler MyEventCallbackEvent;
         private InstanceContext context = null;
         private PubSubServiceReference.PubSubServiceClient client = null;
@@ -17,9 +17,9 @@ namespace PubSubClient
         [CallbackBehaviorAttribute(UseSynchronizationContext = false)]
         public class ServiceCallback : PubSubServiceReference.IPubSubServiceCallback
         {
-            public void ValueChange(string Id, int Value)
+            public void ValueChange(string Id, string Type, int Value)
             {
-                Client.MyEventCallbackEvent(Id, Value);
+                Client.MyEventCallbackEvent(Id, Type, Value);
             }
         }
 
@@ -34,7 +34,7 @@ namespace PubSubClient
 
             string reply = "y";
 
-            while (reply.Contains('y'))
+            while (reply.Equals("y", StringComparison.Ordinal))
             {
                 Console.WriteLine("List of stations by ID:");
 
@@ -55,9 +55,9 @@ namespace PubSubClient
             Console.WriteLine("Client ready, starting transmision...");
         }
 
-        public void Print(string Id, int Value)
+        public void Print(string Id, string Type, int Value)
         {
-            Console.WriteLine("Publisher: {0} Value: {1}", Id, Value);
+            Console.WriteLine("Publisher: {0} Type: {1} Value: {2}", Id, Type, Value);
         }
 
         public void Close()

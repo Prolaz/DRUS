@@ -10,20 +10,21 @@ namespace PublisherClient
 {
     public class Publisher
     {
-            private Timer t;
+            private Timer t1;
+            private Timer t2;
             private Random rnd = new Random();
             private InstanceContext context = null;
             private PubSubServiceReference.PubSubServiceClient client = null;
-            public string Ime { get; set; }
-            public string Lokacija { get; set; }
+            public string Name { get; set; }
+            public string Location { get; set; }
             public string ID { get; set; }
 
             [CallbackBehaviorAttribute(UseSynchronizationContext = false)]
             public class ServiceCallback : PubSubServiceReference.IPubSubServiceCallback
             {
-                public void ValueChange(string Id, int Value)
+                public void ValueChange(string Id, string Type, int Value)
                 {
-                    Console.WriteLine(Id, Value);
+                    Console.WriteLine(Id, Type, Value);
                 }
             }
 
@@ -33,24 +34,33 @@ namespace PublisherClient
                 client = new PubSubServiceReference.PubSubServiceClient(context);
 
                 //ID = GenerateID();
-                Console.WriteLine("Unesite ime meraca:");
-                Ime = Console.ReadLine();
-                Console.WriteLine("Unesite lokaciju meraca:");
-                Lokacija = Console.ReadLine();
+                Console.WriteLine("Station name:");
+                Name = Console.ReadLine();
+                Console.WriteLine("Station location:");
+                Location = Console.ReadLine();
 
-                ID = client.PublisherInit(Ime, Lokacija);
+                ID = client.PublisherInit(Name, Location);
 
-                t = new Timer(1000);
-                t.Elapsed += OnTimerElapsed;
-                t.Enabled = true;
+                t1 = new Timer(1000);
+                t1.Elapsed += OnTimer1Elapsed;
+                t1.Enabled = true;
+
+                t2 = new Timer(6000);
+                t2.Elapsed += OnTimer2Elapsed;
+                t2.Enabled = true;
 
                 Console.WriteLine("Publisher ready...");
-                Console.WriteLine("Ime: {0}  Lokacija: {1} ", Ime, Lokacija);
+                Console.WriteLine("Name: {0}  Location: {1}  ID: {2}", Name, Location, ID);
             }
 
-            private void OnTimerElapsed(Object sender, ElapsedEventArgs e)
+            private void OnTimer1Elapsed(Object sender, ElapsedEventArgs e)
             {
-                client.PublishValueChange(ID, rnd.Next(0, 1000));
+                client.PublishValueChange(ID, "Temperature[°C]", rnd.Next(20, 30));
+            }
+
+            private void OnTimer2Elapsed(Object sender, ElapsedEventArgs e)
+            {
+                client.PublishValueChange(ID, "Relative Humidity[%]", rnd.Next(25, 60));
             }
     }
 }
