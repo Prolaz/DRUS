@@ -25,8 +25,8 @@ namespace PubSubService
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<LOCATIONS> LOCATIONS { get; set; }
-        public virtual DbSet<MEASUREMENTS> MEASUREMENTS { get; set; }
-        public virtual DbSet<STATIONS> STATIONS { get; set; }
+        public virtual DbSet<LOCATION> LOCATIONS { get; set; }
+        public virtual DbSet<MEASUREMENT> MEASUREMENTS { get; set; }
+        public virtual DbSet<STATION> STATIONS { get; set; }
     }
 }

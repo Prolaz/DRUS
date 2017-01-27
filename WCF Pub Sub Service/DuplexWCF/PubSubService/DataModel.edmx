@@ -9,8 +9,8 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="NAME" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="MEASUREMENTS">
           <Key>
@@ -18,7 +18,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VALUE" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="RTU_ID" Type="int" Nullable="false" />
+          <Property Name="STATION_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="TYPE" Type="char" MaxLength="20" Nullable="false" />
           <Property Name="TIME" Type="datetime" Nullable="false" />
         </EntityType>
@@ -26,11 +26,11 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="NAME" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="LOCATION_ID" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__MEASUREME__RTU_I__0F975522">
+        <Association Name="FK__MEASUREME__STATI__2A4B4B5E">
           <End Role="STATIONS" Type="Self.STATIONS" Multiplicity="1" />
           <End Role="MEASUREMENTS" Type="Self.MEASUREMENTS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -38,11 +38,11 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="MEASUREMENTS">
-              <PropertyRef Name="RTU_ID" />
+              <PropertyRef Name="STATION_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__STATIONS__LOCATI__09DE7BCC">
+        <Association Name="FK__STATIONS__LOCATI__24927208">
           <End Role="LOCATIONS" Type="Self.LOCATIONS" Multiplicity="1" />
           <End Role="STATIONS" Type="Self.STATIONS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -58,11 +58,11 @@
           <EntitySet Name="LOCATIONS" EntityType="Self.LOCATIONS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEASUREMENTS" EntityType="Self.MEASUREMENTS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STATIONS" EntityType="Self.STATIONS" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__MEASUREME__RTU_I__0F975522" Association="Self.FK__MEASUREME__RTU_I__0F975522">
+          <AssociationSet Name="FK__MEASUREME__STATI__2A4B4B5E" Association="Self.FK__MEASUREME__STATI__2A4B4B5E">
             <End Role="STATIONS" EntitySet="STATIONS" />
             <End Role="MEASUREMENTS" EntitySet="MEASUREMENTS" />
           </AssociationSet>
-          <AssociationSet Name="FK__STATIONS__LOCATI__09DE7BCC" Association="Self.FK__STATIONS__LOCATI__09DE7BCC">
+          <AssociationSet Name="FK__STATIONS__LOCATI__24927208" Association="Self.FK__STATIONS__LOCATI__24927208">
             <End Role="LOCATIONS" EntitySet="LOCATIONS" />
             <End Role="STATIONS" EntitySet="STATIONS" />
           </AssociationSet>
@@ -72,38 +72,38 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjectDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="LOCATIONS">
+        <EntityType Name="LOCATION">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="NAME" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="STATIONS" Relationship="Self.FK__STATIONS__LOCATI__09DE7BCC" FromRole="LOCATIONS" ToRole="STATIONS" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="STATIONS" Relationship="Self.FK__STATIONS__LOCATI__24927208" FromRole="LOCATIONS" ToRole="STATIONS" />
         </EntityType>
-        <EntityType Name="MEASUREMENTS">
+        <EntityType Name="MEASUREMENT">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VALUE" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="RTU_ID" Type="Int32" Nullable="false" />
+          <Property Name="STATION_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TYPE" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="TIME" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="STATIONS" Relationship="Self.FK__MEASUREME__RTU_I__0F975522" FromRole="MEASUREMENTS" ToRole="STATIONS" />
+          <NavigationProperty Name="STATION" Relationship="Self.FK__MEASUREME__STATI__2A4B4B5E" FromRole="MEASUREMENTS" ToRole="STATIONS" />
         </EntityType>
-        <EntityType Name="STATIONS">
+        <EntityType Name="STATION">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="NAME" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LOCATION_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="LOCATIONS" Relationship="Self.FK__STATIONS__LOCATI__09DE7BCC" FromRole="STATIONS" ToRole="LOCATIONS" />
-          <NavigationProperty Name="MEASUREMENTS" Relationship="Self.FK__MEASUREME__RTU_I__0F975522" FromRole="STATIONS" ToRole="MEASUREMENTS" />
+          <NavigationProperty Name="LOCATION" Relationship="Self.FK__STATIONS__LOCATI__24927208" FromRole="STATIONS" ToRole="LOCATIONS" />
+          <NavigationProperty Name="MEASUREMENTS" Relationship="Self.FK__MEASUREME__STATI__2A4B4B5E" FromRole="STATIONS" ToRole="MEASUREMENTS" />
         </EntityType>
-        <Association Name="FK__STATIONS__LOCATI__09DE7BCC">
-          <End Role="LOCATIONS" Type="Self.LOCATIONS" Multiplicity="1" />
-          <End Role="STATIONS" Type="Self.STATIONS" Multiplicity="*" />
+        <Association Name="FK__STATIONS__LOCATI__24927208">
+          <End Role="LOCATIONS" Type="Self.LOCATION" Multiplicity="1" />
+          <End Role="STATIONS" Type="Self.STATION" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LOCATIONS">
               <PropertyRef Name="ID" />
@@ -113,27 +113,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__MEASUREME__RTU_I__0F975522">
-          <End Role="STATIONS" Type="Self.STATIONS" Multiplicity="1" />
-          <End Role="MEASUREMENTS" Type="Self.MEASUREMENTS" Multiplicity="*" />
+        <Association Name="FK__MEASUREME__STATI__2A4B4B5E">
+          <End Role="STATIONS" Type="Self.STATION" Multiplicity="1" />
+          <End Role="MEASUREMENTS" Type="Self.MEASUREMENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="STATIONS">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="MEASUREMENTS">
-              <PropertyRef Name="RTU_ID" />
+              <PropertyRef Name="STATION_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ProjectDatabaseEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="LOCATIONS" EntityType="Self.LOCATIONS" />
-          <EntitySet Name="MEASUREMENTS" EntityType="Self.MEASUREMENTS" />
-          <EntitySet Name="STATIONS" EntityType="Self.STATIONS" />
-          <AssociationSet Name="FK__STATIONS__LOCATI__09DE7BCC" Association="Self.FK__STATIONS__LOCATI__09DE7BCC">
+          <EntitySet Name="LOCATIONS" EntityType="Self.LOCATION" />
+          <EntitySet Name="MEASUREMENTS" EntityType="Self.MEASUREMENT" />
+          <EntitySet Name="STATIONS" EntityType="Self.STATION" />
+          <AssociationSet Name="FK__STATIONS__LOCATI__24927208" Association="Self.FK__STATIONS__LOCATI__24927208">
             <End Role="LOCATIONS" EntitySet="LOCATIONS" />
             <End Role="STATIONS" EntitySet="STATIONS" />
           </AssociationSet>
-          <AssociationSet Name="FK__MEASUREME__RTU_I__0F975522" Association="Self.FK__MEASUREME__RTU_I__0F975522">
+          <AssociationSet Name="FK__MEASUREME__STATI__2A4B4B5E" Association="Self.FK__MEASUREME__STATI__2A4B4B5E">
             <End Role="STATIONS" EntitySet="STATIONS" />
             <End Role="MEASUREMENTS" EntitySet="MEASUREMENTS" />
           </AssociationSet>
@@ -145,7 +145,7 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ProjectDatabaseModelStoreContainer" CdmEntityContainer="ProjectDatabaseEntities">
           <EntitySetMapping Name="LOCATIONS">
-            <EntityTypeMapping TypeName="ProjectDatabaseModel.LOCATIONS">
+            <EntityTypeMapping TypeName="ProjectDatabaseModel.LOCATION">
               <MappingFragment StoreEntitySet="LOCATIONS">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
@@ -153,18 +153,18 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MEASUREMENTS">
-            <EntityTypeMapping TypeName="ProjectDatabaseModel.MEASUREMENTS">
+            <EntityTypeMapping TypeName="ProjectDatabaseModel.MEASUREMENT">
               <MappingFragment StoreEntitySet="MEASUREMENTS">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="VALUE" ColumnName="VALUE" />
-                <ScalarProperty Name="RTU_ID" ColumnName="RTU_ID" />
+                <ScalarProperty Name="STATION_ID" ColumnName="STATION_ID" />
                 <ScalarProperty Name="TYPE" ColumnName="TYPE" />
                 <ScalarProperty Name="TIME" ColumnName="TIME" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="STATIONS">
-            <EntityTypeMapping TypeName="ProjectDatabaseModel.STATIONS">
+            <EntityTypeMapping TypeName="ProjectDatabaseModel.STATION">
               <MappingFragment StoreEntitySet="STATIONS">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
@@ -186,7 +186,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

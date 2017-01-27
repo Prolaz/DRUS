@@ -12,14 +12,14 @@ namespace PubSubService
     using System;
     using System.Collections.Generic;
     
-    public partial class MEASUREMENTS
+    public partial class MEASUREMENT
     {
         public int ID { get; set; }
         public decimal VALUE { get; set; }
-        public int RTU_ID { get; set; }
+        public string STATION_ID { get; set; }
         public string TYPE { get; set; }
         public System.DateTime TIME { get; set; }
     
-        public virtual STATIONS STATIONS { get; set; }
+        public virtual STATION STATION { get; set; }
     }
 }

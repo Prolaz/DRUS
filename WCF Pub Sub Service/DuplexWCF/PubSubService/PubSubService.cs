@@ -13,45 +13,51 @@ namespace PubSubService
     {
         public delegate void ValueChangeEventHandler(object sender, ServiceEventArgs e);
         public static event ValueChangeEventHandler ValueChangeEvent;
-        private static readonly List<string> _publishers = new List<string>();
-        private List<string> listeningTo = new List<string>();
-        //private Dictionary<string, int> measurements = new Dictionary<string, int>();
-        //public Dictionary<string, int> Measurements
-        //{
-        //    get
-        //    {
-        //        return measurements;
-        //    }
-        //    set
-        //    {
-        //        measurements = value;
-        //    }
-        //}
-
+        ProjectDatabaseEntities entities = new ProjectDatabaseEntities();
+        private List<string> listeningTo = new List<string>();       
         IPubSubContract ServiceCallback = null;
         ValueChangeEventHandler ValueHandler = null;
 
         public List<string> ListAllPublishers()
         {
-            lock (_publishers)
+            List<string> publishers = new List<string>();
+            foreach (var s in entities.STATIONS)
             {
-                return _publishers;
+                publishers.Add(s.ID);
             }
+
+            return publishers;
+        }
+
+        public List<string> ListMyPublishers()
+        {
+            return listeningTo;
+        }
+
+        public List<string> ListAllLocations()
+        {
+            List<string> loc = new List<string>();
+            foreach (var e in entities.LOCATIONS)
+            {
+                loc.Add(e.NAME);
+            }
+
+            return loc;
         }
 
         public string Subscribe(string ID)
         {
-            lock (_publishers)
+            var station = (from s in entities.STATIONS
+                           where s.ID == ID
+                           select s).FirstOrDefault();
+            if (station != null) 
             {
-                if (_publishers.Contains(ID))
+                if (!listeningTo.Contains(ID))
                 {
-                    if (!listeningTo.Contains(ID))
-                    {
-                        listeningTo.Add(ID);
-                        return "Subscription to station " + ID + " successful";
-                    }
-                    return "You are already subscribed to station " + ID;
+                    listeningTo.Add(ID);
+                    return "Subscription to station " + ID + " successful";
                 }
+                return "You are already subscribed to station " + ID;
             }
             return "Subscription failed. There is no station with selected ID: " + ID;
         }
@@ -68,6 +74,10 @@ namespace PubSubService
 
         public void UnsubscribeAll()
         {
+            if (listeningTo.Count != 0)
+            {
+                listeningTo = new List<string>();
+            }
             ValueChangeEvent -= ValueHandler;
         }
 
@@ -80,17 +90,153 @@ namespace PubSubService
 
         public string PublisherInit(string Name, string Location)
         {
-            string ID = Name + Location;
+            string ID = Name + Location.Replace(" ", String.Empty);
 
-            lock (_publishers)
+            var station = (from s in entities.STATIONS
+                           where s.ID == ID
+                           select s).FirstOrDefault();
+            if (station == null)
             {
-                if (!_publishers.Contains(ID))
-                {
-                    _publishers.Add(ID);
-                }
+                station = new STATION();
+                station.ID = ID;
+                station.NAME = Name;
+                station.LOCATION_ID= (from l in entities.LOCATIONS
+                                    where l.NAME == Location
+                                    select l.ID).FirstOrDefault();
+                entities.STATIONS.Attach(station);
+                entities.STATIONS.Add(station);
+                entities.SaveChanges();
             }
 
             return ID;
+        }
+
+        public List<Measurement> AllMeasurementsFromTo(string ID, DateTime start, DateTime end)
+        {
+            List<Measurement> retVal = new List<Measurement>();
+            Measurement temp = new Measurement();
+
+            var measurements = (from m in entities.MEASUREMENTS
+                              where m.TIME >= start && m.TIME <= end && m.STATION_ID == ID 
+                              select m);
+
+            foreach (var m in measurements)
+            {
+                temp.ID = m.ID;
+                temp.Value = m.VALUE;
+                temp.Type = m.TYPE;
+                temp.Time = m.TIME;
+                temp.StationID = m.STATION_ID;
+                temp.LocationName = m.STATION.LOCATION.NAME;
+                retVal.Add(temp);
+            }
+
+            return retVal;
+        }
+
+        public List<Measurement> CertainMeasurementFromTo(string ID, string Type, DateTime start, DateTime end)
+        {
+            List<Measurement> retVal = new List<Measurement>();
+            Measurement temp = new Measurement();
+
+            var measurements = (from m in entities.MEASUREMENTS
+                                where m.TIME >= start && m.TIME <= end && m.STATION_ID == ID && m.TYPE == Type
+                                select m);
+            
+
+            foreach (var m in measurements)
+            {
+                temp.ID = m.ID;
+                temp.Value = m.VALUE;
+                temp.Type = m.TYPE;
+                temp.Time = m.TIME;
+                temp.StationID = m.STATION_ID;
+                temp.LocationName = m.STATION.LOCATION.NAME;
+                retVal.Add(temp);
+            }
+
+            return retVal;
+        }
+
+        public List<DateTime> HighLowByID(string ID, string Type, bool Hi, bool Lo, int Min, int Max)
+        {
+            List<DateTime> retVal = new List<DateTime>();
+            Measurement temp = new Measurement();
+
+            if (Hi){
+                var measurements = (from m in entities.MEASUREMENTS
+                                    where m.STATION_ID == ID && m.TYPE == Type && m.VALUE >= Max
+                                    select m.TIME);
+                foreach (var m in measurements)
+                {
+                    retVal.Add(m);
+                }
+
+                return retVal;
+
+            }
+            else if (Lo)
+            {
+                var measurements = (from m in entities.MEASUREMENTS
+                                    where m.STATION_ID == ID && m.TYPE == Type && m.VALUE <= Min
+                                    select m.TIME);
+                foreach (var m in measurements)
+                {
+                    retVal.Add(m);
+                }
+
+                return retVal;
+            }
+
+
+            return retVal;
+        }
+
+        public decimal Average(string Location, string Type, DateTime start, DateTime end)
+        {
+            var measurements = (from m in entities.MEASUREMENTS
+                                where m.TIME >= start && m.TIME <= end && m.STATION.LOCATION.NAME == Location && m.TYPE == Type
+                                select m.VALUE).ToArray();
+
+            decimal sum = measurements.Sum();
+            decimal retVal = sum / measurements.Length;
+
+            return retVal;
+        }
+
+        public List<DateTime> HighLowByLocation(string Location, string Type, bool Hi, bool Lo, int Min, int Max)
+        {
+            List<DateTime> retVal = new List<DateTime>();
+            Measurement temp = new Measurement();
+
+            if (Hi)
+            {
+                var measurements = (from m in entities.MEASUREMENTS
+                                    where m.STATION.LOCATION.NAME == Location && m.TYPE == Type && m.VALUE >= Max
+                                    select m.TIME);
+                foreach (var m in measurements)
+                {
+                    retVal.Add(m);
+                }
+
+                return retVal;
+
+            }
+            else if (Lo)
+            {
+                var measurements = (from m in entities.MEASUREMENTS
+                                    where m.STATION.LOCATION.NAME == Location && m.TYPE == Type && m.VALUE <= Min
+                                    select m.TIME);
+                foreach (var m in measurements)
+                {
+                    retVal.Add(m);
+                }
+
+                return retVal;
+            }
+
+
+            return retVal;
         }
 
         public void PublishValueChange(string Id, string Type, int Value)
@@ -99,7 +245,16 @@ namespace PubSubService
             se.Id = Id;
             se.Type = Type;
             se.Value = Value;
-            //Measurements[Id] = Value;
+            MEASUREMENT m = new MEASUREMENT();
+            m.VALUE = Value;
+            m.TYPE = Type;
+            m.STATION_ID = (from s in entities.STATIONS
+                         where s.ID == Id
+                         select s.ID).FirstOrDefault();
+            m.TIME = DateTime.Now;
+            entities.MEASUREMENTS.Attach(m);
+            entities.MEASUREMENTS.Add(m);
+            entities.SaveChanges();
 
             if (ValueChangeEvent!=null)
                 ValueChangeEvent(this, se);

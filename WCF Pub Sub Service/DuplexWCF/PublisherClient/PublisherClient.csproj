@@ -61,6 +61,12 @@
     <None Include="Service References\PubSubServiceReference\ListPublishSubscribe.Service.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\PubSubServiceReference\PublisherClient.PubSubServiceReference.Measurement.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\PubSubServiceReference\PubSubService.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\PubSubServiceReference\service.wsdl" />
     <None Include="Service References\PubSubServiceReference\service.xsd">
       <SubType>Designer</SubType>

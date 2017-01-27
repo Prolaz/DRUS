@@ -12,20 +12,18 @@ namespace PubSubService
     using System;
     using System.Collections.Generic;
     
-    public partial class STATIONS
+    public partial class LOCATION
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public STATIONS()
+        public LOCATION()
         {
-            this.MEASUREMENTS = new HashSet<MEASUREMENTS>();
+            this.STATIONS = new HashSet<STATION>();
         }
     
         public int ID { get; set; }
         public string NAME { get; set; }
-        public int LOCATION_ID { get; set; }
     
-        public virtual LOCATIONS LOCATIONS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MEASUREMENTS> MEASUREMENTS { get; set; }
+        public virtual ICollection<STATION> STATIONS { get; set; }
     }
 }

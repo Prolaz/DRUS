@@ -33,11 +33,19 @@ namespace PublisherClient
                 context = new InstanceContext(new ServiceCallback());
                 client = new PubSubServiceReference.PubSubServiceClient(context);
 
-                //ID = GenerateID();
-                Console.WriteLine("Station name:");
+                Console.WriteLine("Enter station name:");
                 Name = Console.ReadLine();
-                Console.WriteLine("Station location:");
-                Location = Console.ReadLine();
+                Console.WriteLine("Searching for available locations...");
+                string[] locations = client.ListAllLocations();
+                for (int i = 0; i < locations.Length; i++)
+                {
+                    Console.WriteLine("{0}. {1}", i, locations[i]);
+                }
+                Console.WriteLine("Enter location number:");
+                string reply = Console.ReadLine();
+                int locationNum = Convert.ToInt16(reply);
+
+                Location = locations[locationNum];
 
                 ID = client.PublisherInit(Name, Location);
 
