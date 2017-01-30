@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="cdd0ad12-9f9a-423c-bfe9-baa0bcda3cb4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:53795/PubSubService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PubSubService.xsd" MetadataType="Schema" ID="04374aa8-1f0d-46e6-bd28-d58185d8ba7f" SourceId="1" SourceUrl="http://localhost:53795/PubSubService.svc?xsd=xsd0" />
+    <MetadataFile FileName="PubSubService1.xsd" MetadataType="Schema" ID="74722efa-094a-42f2-917e-d2200444c2ae" SourceId="1" SourceUrl="http://localhost:53795/PubSubService.svc?xsd=xsd3" />
+    <MetadataFile FileName="PubSubService2.xsd" MetadataType="Schema" ID="0dea9716-8409-4457-bc6c-9a395da2a5f7" SourceId="1" SourceUrl="http://localhost:53795/PubSubService.svc?xsd=xsd2" />
+    <MetadataFile FileName="PubSubService.wsdl" MetadataType="Wsdl" ID="9d3b665c-4b9f-449b-a68a-89da06da9c99" SourceId="1" SourceUrl="http://localhost:53795/PubSubService.svc?wsdl" />
+    <MetadataFile FileName="PubSubService1.wsdl" MetadataType="Wsdl" ID="a6b06996-72e1-48c6-bec7-f1714179429d" SourceId="1" SourceUrl="http://localhost:53795/PubSubService.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="PubSubService.disco" MetadataType="Disco" ID="9a505b97-9923-43a6-8eaa-6efa99a076fa" SourceId="1" SourceUrl="http://localhost:53795/PubSubService.svc?disco" />
+    <MetadataFile FileName="PubSubService3.xsd" MetadataType="Schema" ID="6ca31c9e-54a4-434d-9d85-5f66890b011e" SourceId="1" SourceUrl="http://localhost:53795/PubSubService.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
