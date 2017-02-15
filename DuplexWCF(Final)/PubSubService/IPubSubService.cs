@@ -12,34 +12,34 @@ namespace PubSubService
     SessionMode = SessionMode.Required, CallbackContract = typeof(IPubSubContract))]
     public interface IPubSubService
     {
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        string Subscribe(string ID);
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        string Unsubscribe(string ID);
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        void UnsubscribeAll();
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        List<string> ListAllPublishers();
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        List<string> ListMyPublishers();
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        List<string> ListAllLocations();
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract]
         string PublisherInit(string Ime, string Lokacija);
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract]
         void ClientInit();
         [OperationContract(IsOneWay = false, IsInitiating = true)]
+        string Subscribe(string ID);
+        [OperationContract]
+        string Unsubscribe(string ID);
+        [OperationContract]
+        void UnsubscribeAll();
+        [OperationContract]
         void PublishValueChange(string Id, string Type, int Value);
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        List<Measurement> AllMeasurementsFromTo(string ID, DateTime start, DateTime end);
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        List<Measurement> CertainMeasurementFromTo(string ID, string Type, DateTime start, DateTime end);
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        List<DateTime> HighLowByID(string ID, string Type, bool Hi, bool Lo, int Min, int Max);
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        decimal Average(string Location, string Type, DateTime start, DateTime end);
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
-        List<DateTime> HighLowByLocation(string Location, string Type, bool Hi, bool Lo, int Min, int Max);
+        [OperationContract]
+        List<string> ListAllPublishers();
+        [OperationContract]
+        List<string> ListMyPublishers();
+        [OperationContract]
+        List<string> ListAllLocations();
+        [OperationContract]
+        List<Measurement> GetAllMeasurements(string ID, DateTime start, DateTime end);
+        [OperationContract]
+        List<Measurement> GetSpecificMeasurement(string ID, string Type, DateTime start, DateTime end);
+        [OperationContract]
+        decimal GetAverageValue(string Location, string Type, DateTime start, DateTime end);
+        [OperationContract]
+        DateTime[] GetOutOfRangeMomentsByID(string ID, string Type, bool HiLo, int Limit);
+        [OperationContract]
+        DateTime[] GetOutOfRangeMomentsByLocation(string Location, string Type, bool HiLo, int Limit);
     }
 
     [DataContract]

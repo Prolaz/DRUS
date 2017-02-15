@@ -18,31 +18,33 @@ namespace PubSubService
         IPubSubContract ServiceCallback = null;
         ValueChangeEventHandler ValueHandler = null;
 
-        public List<string> ListAllPublishers()
+        public string PublisherInit(string Name, string Location)
         {
-            List<string> publishers = new List<string>();
-            foreach (var s in entities.STATIONS)
+            string ID = Name + Location.Replace(" ", String.Empty);
+
+            var station = (from s in entities.STATIONS
+                           where s.ID == ID
+                           select s).FirstOrDefault();
+            if (station == null)
             {
-                publishers.Add(s.ID);
+                station = new STATION();
+                station.ID = ID;
+                station.NAME = Name;
+                station.LOCATION_ID = (from l in entities.LOCATIONS
+                                       where l.NAME == Location
+                                       select l.ID).FirstOrDefault();
+                entities.STATIONS.AddObject(station);
+                entities.SaveChanges();
             }
 
-            return publishers;
+            return ID;
         }
 
-        public List<string> ListMyPublishers()
+        public void ClientInit()
         {
-            return listeningTo;
-        }
-
-        public List<string> ListAllLocations()
-        {
-            List<string> loc = new List<string>();
-            foreach (var e in entities.LOCATIONS)
-            {
-                loc.Add(e.NAME);
-            }
-
-            return loc;
+            ServiceCallback = OperationContext.Current.GetCallbackChannel<IPubSubContract>();
+            ValueHandler = new ValueChangeEventHandler(PublishValueChangeHandler);
+            ValueChangeEvent += ValueHandler;
         }
 
         public string Subscribe(string ID)
@@ -81,36 +83,34 @@ namespace PubSubService
             ValueChangeEvent -= ValueHandler;
         }
 
-        public void ClientInit()
+        public List<string> ListAllPublishers()
         {
-            ServiceCallback = OperationContext.Current.GetCallbackChannel<IPubSubContract>();
-            ValueHandler = new ValueChangeEventHandler(PublishValueChangeHandler);
-            ValueChangeEvent += ValueHandler;
-        }
-
-        public string PublisherInit(string Name, string Location)
-        {
-            string ID = Name + Location.Replace(" ", String.Empty);
-
-            var station = (from s in entities.STATIONS
-                           where s.ID == ID
-                           select s).FirstOrDefault();
-            if (station == null)
+            List<string> publishers = new List<string>();
+            foreach (var s in entities.STATIONS)
             {
-                station = new STATION();
-                station.ID = ID;
-                station.NAME = Name;
-                station.LOCATION_ID = (from l in entities.LOCATIONS
-                                       where l.NAME == Location
-                                       select l.ID).FirstOrDefault();
-                entities.STATIONS.AddObject(station);
-                entities.SaveChanges();
+                publishers.Add(s.ID);
             }
 
-            return ID;
+            return publishers;
         }
 
-        public List<Measurement> AllMeasurementsFromTo(string ID, DateTime start, DateTime end)
+        public List<string> ListMyPublishers()
+        {
+            return listeningTo;
+        }
+
+        public List<string> ListAllLocations()
+        {
+            List<string> loc = new List<string>();
+            foreach (var e in entities.LOCATIONS)
+            {
+                loc.Add(e.NAME);
+            }
+
+            return loc;
+        }
+
+        public List<Measurement> GetAllMeasurements(string ID, DateTime start, DateTime end)
         {
             List<Measurement> retVal = new List<Measurement>();
 
@@ -133,7 +133,7 @@ namespace PubSubService
             return retVal;
         }
 
-        public List<Measurement> CertainMeasurementFromTo(string ID, string Type, DateTime start, DateTime end)
+        public List<Measurement> GetSpecificMeasurement(string ID, string Type, DateTime start, DateTime end)
         {
             List<Measurement> retVal = new List<Measurement>();
 
@@ -157,41 +157,7 @@ namespace PubSubService
             return retVal;
         }
 
-        public List<DateTime> HighLowByID(string ID, string Type, bool Hi, bool Lo, int Min, int Max)
-        {
-            List<DateTime> retVal = new List<DateTime>();
-
-            if (Hi)
-            {
-                var measurements = (from m in entities.MEASUREMENTS
-                                    where m.STATION_ID == ID && m.TYPE == Type && m.VALUE >= Max
-                                    select m.TIME).ToArray();
-                foreach (var m in measurements)
-                {
-                    retVal.Add(m);
-                }
-
-                return retVal;
-
-            }
-            else if (Lo)
-            {
-                var measurements = (from m in entities.MEASUREMENTS
-                                    where m.STATION_ID == ID && m.TYPE == Type && m.VALUE <= Min
-                                    select m.TIME).ToArray();
-                foreach (var m in measurements)
-                {
-                    retVal.Add(m);
-                }
-
-                return retVal;
-            }
-
-
-            return retVal;
-        }
-
-        public decimal Average(string Location, string Type, DateTime start, DateTime end)
+        public decimal GetAverageValue(string Location, string Type, DateTime start, DateTime end)
         {
             var measurements = (from m in entities.MEASUREMENTS
                                 where m.TIME >= start && m.TIME <= end && m.STATION.LOCATION.NAME == Location && m.TYPE == Type
@@ -203,38 +169,22 @@ namespace PubSubService
             return retVal;
         }
 
-        public List<DateTime> HighLowByLocation(string Location, string Type, bool Hi, bool Lo, int Min, int Max)
+        public DateTime[] GetOutOfRangeMomentsByID(string ID, string Type, bool HiLo, int Limit)
         {
-            List<DateTime> retVal = new List<DateTime>();
+            var measurements = (from m in entities.MEASUREMENTS
+                                where m.STATION_ID == ID && m.TYPE == Type && HiLo? m.VALUE >= Limit : m.VALUE <= Limit 
+                                select m.TIME).ToArray();
 
-            if (Hi)
-            {
-                var measurements = (from m in entities.MEASUREMENTS
-                                    where m.STATION.LOCATION.NAME == Location && m.TYPE == Type && m.VALUE >= Max
-                                    select m.TIME).ToArray();
-                foreach (var m in measurements)
-                {
-                    retVal.Add(m);
-                }
+            return measurements;
+        }
 
-                return retVal;
+        public DateTime[] GetOutOfRangeMomentsByLocation(string Location, string Type, bool HiLo, int Limit)
+        {
+            var measurements = (from m in entities.MEASUREMENTS
+                                where m.STATION.LOCATION.NAME == Location && m.TYPE == Type && HiLo? m.VALUE >= Limit : m.VALUE <= Limit 
+                                select m.TIME).ToArray();
 
-            }
-            else if (Lo)
-            {
-                var measurements = (from m in entities.MEASUREMENTS
-                                    where m.STATION.LOCATION.NAME == Location && m.TYPE == Type && m.VALUE <= Min
-                                    select m.TIME);
-                foreach (var m in measurements)
-                {
-                    retVal.Add(m);
-                }
-
-                return retVal;
-            }
-
-
-            return retVal;
+            return measurements;
         }
 
         public void PublishValueChange(string Id, string Type, int Value)

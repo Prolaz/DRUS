@@ -8,6 +8,18 @@
       <xsd:import schemaLocation="http://localhost:53795/PubSubService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/PubSubService" />
     </xsd:schema>
   </wsdl:types>
+  <wsdl:message name="IPubSubService_PublisherInit_InputMessage">
+    <wsdl:part name="parameters" element="tns:PublisherInit" />
+  </wsdl:message>
+  <wsdl:message name="IPubSubService_PublisherInit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PublisherInitResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPubSubService_ClientInit_InputMessage">
+    <wsdl:part name="parameters" element="tns:ClientInit" />
+  </wsdl:message>
+  <wsdl:message name="IPubSubService_ClientInit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ClientInitResponse" />
+  </wsdl:message>
   <wsdl:message name="IPubSubService_Subscribe_InputMessage">
     <wsdl:part name="parameters" element="tns:Subscribe" />
   </wsdl:message>
@@ -25,6 +37,12 @@
   </wsdl:message>
   <wsdl:message name="IPubSubService_UnsubscribeAll_OutputMessage">
     <wsdl:part name="parameters" element="tns:UnsubscribeAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPubSubService_PublishValueChange_InputMessage">
+    <wsdl:part name="parameters" element="tns:PublishValueChange" />
+  </wsdl:message>
+  <wsdl:message name="IPubSubService_PublishValueChange_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PublishValueChangeResponse" />
   </wsdl:message>
   <wsdl:message name="IPubSubService_ListAllPublishers_InputMessage">
     <wsdl:part name="parameters" element="tns:ListAllPublishers" />
@@ -44,58 +62,48 @@
   <wsdl:message name="IPubSubService_ListAllLocations_OutputMessage">
     <wsdl:part name="parameters" element="tns:ListAllLocationsResponse" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_PublisherInit_InputMessage">
-    <wsdl:part name="parameters" element="tns:PublisherInit" />
+  <wsdl:message name="IPubSubService_GetAllMeasurements_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllMeasurements" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_PublisherInit_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PublisherInitResponse" />
+  <wsdl:message name="IPubSubService_GetAllMeasurements_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllMeasurementsResponse" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_ClientInit_InputMessage">
-    <wsdl:part name="parameters" element="tns:ClientInit" />
+  <wsdl:message name="IPubSubService_GetSpecificMeasurement_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpecificMeasurement" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_ClientInit_OutputMessage">
-    <wsdl:part name="parameters" element="tns:ClientInitResponse" />
+  <wsdl:message name="IPubSubService_GetSpecificMeasurement_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSpecificMeasurementResponse" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_PublishValueChange_InputMessage">
-    <wsdl:part name="parameters" element="tns:PublishValueChange" />
+  <wsdl:message name="IPubSubService_GetAverageValue_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAverageValue" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_PublishValueChange_OutputMessage">
-    <wsdl:part name="parameters" element="tns:PublishValueChangeResponse" />
+  <wsdl:message name="IPubSubService_GetAverageValue_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAverageValueResponse" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_AllMeasurementsFromTo_InputMessage">
-    <wsdl:part name="parameters" element="tns:AllMeasurementsFromTo" />
+  <wsdl:message name="IPubSubService_GetOutOfRangeMomentsByID_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOutOfRangeMomentsByID" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_AllMeasurementsFromTo_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AllMeasurementsFromToResponse" />
+  <wsdl:message name="IPubSubService_GetOutOfRangeMomentsByID_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOutOfRangeMomentsByIDResponse" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_CertainMeasurementFromTo_InputMessage">
-    <wsdl:part name="parameters" element="tns:CertainMeasurementFromTo" />
+  <wsdl:message name="IPubSubService_GetOutOfRangeMomentsByLocation_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOutOfRangeMomentsByLocation" />
   </wsdl:message>
-  <wsdl:message name="IPubSubService_CertainMeasurementFromTo_OutputMessage">
-    <wsdl:part name="parameters" element="tns:CertainMeasurementFromToResponse" />
-  </wsdl:message>
-  <wsdl:message name="IPubSubService_HighLowByID_InputMessage">
-    <wsdl:part name="parameters" element="tns:HighLowByID" />
-  </wsdl:message>
-  <wsdl:message name="IPubSubService_HighLowByID_OutputMessage">
-    <wsdl:part name="parameters" element="tns:HighLowByIDResponse" />
-  </wsdl:message>
-  <wsdl:message name="IPubSubService_Average_InputMessage">
-    <wsdl:part name="parameters" element="tns:Average" />
-  </wsdl:message>
-  <wsdl:message name="IPubSubService_Average_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AverageResponse" />
-  </wsdl:message>
-  <wsdl:message name="IPubSubService_HighLowByLocation_InputMessage">
-    <wsdl:part name="parameters" element="tns:HighLowByLocation" />
-  </wsdl:message>
-  <wsdl:message name="IPubSubService_HighLowByLocation_OutputMessage">
-    <wsdl:part name="parameters" element="tns:HighLowByLocationResponse" />
+  <wsdl:message name="IPubSubService_GetOutOfRangeMomentsByLocation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOutOfRangeMomentsByLocationResponse" />
   </wsdl:message>
   <wsdl:message name="IPubSubService_ValueChange_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:ValueChange" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="IPubSubService">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PublisherInit">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInit" message="tns:IPubSubService_PublisherInit_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInitResponse" message="tns:IPubSubService_PublisherInit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ClientInit">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInit" message="tns:IPubSubService_ClientInit_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInitResponse" message="tns:IPubSubService_ClientInit_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Subscribe">
       <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/Subscribe" message="tns:IPubSubService_Subscribe_InputMessage" />
       <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/SubscribeResponse" message="tns:IPubSubService_Subscribe_OutputMessage" />
@@ -107,6 +115,10 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UnsubscribeAll">
       <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAll" message="tns:IPubSubService_UnsubscribeAll_InputMessage" />
       <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAllResponse" message="tns:IPubSubService_UnsubscribeAll_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PublishValueChange">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChange" message="tns:IPubSubService_PublishValueChange_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChangeResponse" message="tns:IPubSubService_PublishValueChange_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ListAllPublishers">
       <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ListAllPublishers" message="tns:IPubSubService_ListAllPublishers_InputMessage" />
@@ -120,37 +132,25 @@
       <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ListAllLocations" message="tns:IPubSubService_ListAllLocations_InputMessage" />
       <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ListAllLocationsResponse" message="tns:IPubSubService_ListAllLocations_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PublisherInit">
-      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInit" message="tns:IPubSubService_PublisherInit_InputMessage" />
-      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInitResponse" message="tns:IPubSubService_PublisherInit_OutputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAllMeasurements">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetAllMeasurements" message="tns:IPubSubService_GetAllMeasurements_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetAllMeasurementsResponse" message="tns:IPubSubService_GetAllMeasurements_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ClientInit">
-      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInit" message="tns:IPubSubService_ClientInit_InputMessage" />
-      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInitResponse" message="tns:IPubSubService_ClientInit_OutputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetSpecificMeasurement">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetSpecificMeasurement" message="tns:IPubSubService_GetSpecificMeasurement_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetSpecificMeasurementResponse" message="tns:IPubSubService_GetSpecificMeasurement_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PublishValueChange">
-      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChange" message="tns:IPubSubService_PublishValueChange_InputMessage" />
-      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChangeResponse" message="tns:IPubSubService_PublishValueChange_OutputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetAverageValue">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetAverageValue" message="tns:IPubSubService_GetAverageValue_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetAverageValueResponse" message="tns:IPubSubService_GetAverageValue_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AllMeasurementsFromTo">
-      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/AllMeasurementsFromTo" message="tns:IPubSubService_AllMeasurementsFromTo_InputMessage" />
-      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/AllMeasurementsFromToResponse" message="tns:IPubSubService_AllMeasurementsFromTo_OutputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetOutOfRangeMomentsByID">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetOutOfRangeMomentsByID" message="tns:IPubSubService_GetOutOfRangeMomentsByID_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetOutOfRangeMomentsByIDResponse" message="tns:IPubSubService_GetOutOfRangeMomentsByID_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CertainMeasurementFromTo">
-      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/CertainMeasurementFromTo" message="tns:IPubSubService_CertainMeasurementFromTo_InputMessage" />
-      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/CertainMeasurementFromToResponse" message="tns:IPubSubService_CertainMeasurementFromTo_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="HighLowByID">
-      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/HighLowByID" message="tns:IPubSubService_HighLowByID_InputMessage" />
-      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/HighLowByIDResponse" message="tns:IPubSubService_HighLowByID_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Average">
-      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/Average" message="tns:IPubSubService_Average_InputMessage" />
-      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/AverageResponse" message="tns:IPubSubService_Average_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="HighLowByLocation">
-      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/HighLowByLocation" message="tns:IPubSubService_HighLowByLocation_InputMessage" />
-      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/HighLowByLocationResponse" message="tns:IPubSubService_HighLowByLocation_OutputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetOutOfRangeMomentsByLocation">
+      <wsdl:input wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetOutOfRangeMomentsByLocation" message="tns:IPubSubService_GetOutOfRangeMomentsByLocation_InputMessage" />
+      <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/GetOutOfRangeMomentsByLocationResponse" message="tns:IPubSubService_GetOutOfRangeMomentsByLocation_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ValueChange">
       <wsdl:output wsaw:Action="http://ListPublishSubscribe.Service/IPubSubService/ValueChange" message="tns:IPubSubService_ValueChange_OutputCallbackMessage" />

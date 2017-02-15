@@ -142,6 +142,12 @@ namespace SubscriberClient.PubSubServiceReference {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://ListPublishSubscribe.Service", ConfigurationName="PubSubServiceReference.IPubSubService", CallbackContract=typeof(SubscriberClient.PubSubServiceReference.IPubSubServiceCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface IPubSubService {
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublisherInitResponse")]
+        string PublisherInit(string Ime, string Lokacija);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/ClientInitResponse")]
+        void ClientInit();
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/Subscribe", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/SubscribeResponse")]
         string Subscribe(string ID);
         
@@ -150,6 +156,9 @@ namespace SubscriberClient.PubSubServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAll", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/UnsubscribeAllResponse")]
         void UnsubscribeAll();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChange", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChangeResponse")]
+        void PublishValueChange(string Id, string Type, int Value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/ListAllPublishers", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/ListAllPublishersResponse")]
         string[] ListAllPublishers();
@@ -160,30 +169,24 @@ namespace SubscriberClient.PubSubServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/ListAllLocations", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/ListAllLocationsResponse")]
         string[] ListAllLocations();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublisherInitResponse")]
-        string PublisherInit(string Ime, string Lokacija);
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/GetAllMeasurements", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/GetAllMeasurementsResponse")]
+        SubscriberClient.PubSubServiceReference.Measurement[] GetAllMeasurements(string ID, System.DateTime start, System.DateTime end);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/ClientInitResponse")]
-        void ClientInit();
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/GetSpecificMeasurement", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/GetSpecificMeasurementResponse" +
+            "")]
+        SubscriberClient.PubSubServiceReference.Measurement[] GetSpecificMeasurement(string ID, string Type, System.DateTime start, System.DateTime end);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChange", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublishValueChangeResponse")]
-        void PublishValueChange(string Id, string Type, int Value);
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/GetAverageValue", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/GetAverageValueResponse")]
+        decimal GetAverageValue(string Location, string Type, System.DateTime start, System.DateTime end);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/AllMeasurementsFromTo", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/AllMeasurementsFromToResponse")]
-        SubscriberClient.PubSubServiceReference.Measurement[] AllMeasurementsFromTo(string ID, System.DateTime start, System.DateTime end);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/CertainMeasurementFromTo", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/CertainMeasurementFromToRespon" +
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/GetOutOfRangeMomentsByID", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/GetOutOfRangeMomentsByIDRespon" +
             "se")]
-        SubscriberClient.PubSubServiceReference.Measurement[] CertainMeasurementFromTo(string ID, string Type, System.DateTime start, System.DateTime end);
+        System.DateTime[] GetOutOfRangeMomentsByID(string ID, string Type, bool HiLo, int Limit);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/HighLowByID", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/HighLowByIDResponse")]
-        System.DateTime[] HighLowByID(string ID, string Type, bool Hi, bool Lo, int Min, int Max);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/Average", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/AverageResponse")]
-        decimal Average(string Location, string Type, System.DateTime start, System.DateTime end);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/HighLowByLocation", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/HighLowByLocationResponse")]
-        System.DateTime[] HighLowByLocation(string Location, string Type, bool Hi, bool Lo, int Min, int Max);
+        [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/GetOutOfRangeMomentsByLocation" +
+            "", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/GetOutOfRangeMomentsByLocation" +
+            "Response")]
+        System.DateTime[] GetOutOfRangeMomentsByLocation(string Location, string Type, bool HiLo, int Limit);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -221,6 +224,14 @@ namespace SubscriberClient.PubSubServiceReference {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
+        public string PublisherInit(string Ime, string Lokacija) {
+            return base.Channel.PublisherInit(Ime, Lokacija);
+        }
+        
+        public void ClientInit() {
+            base.Channel.ClientInit();
+        }
+        
         public string Subscribe(string ID) {
             return base.Channel.Subscribe(ID);
         }
@@ -231,6 +242,10 @@ namespace SubscriberClient.PubSubServiceReference {
         
         public void UnsubscribeAll() {
             base.Channel.UnsubscribeAll();
+        }
+        
+        public void PublishValueChange(string Id, string Type, int Value) {
+            base.Channel.PublishValueChange(Id, Type, Value);
         }
         
         public string[] ListAllPublishers() {
@@ -245,36 +260,24 @@ namespace SubscriberClient.PubSubServiceReference {
             return base.Channel.ListAllLocations();
         }
         
-        public string PublisherInit(string Ime, string Lokacija) {
-            return base.Channel.PublisherInit(Ime, Lokacija);
+        public SubscriberClient.PubSubServiceReference.Measurement[] GetAllMeasurements(string ID, System.DateTime start, System.DateTime end) {
+            return base.Channel.GetAllMeasurements(ID, start, end);
         }
         
-        public void ClientInit() {
-            base.Channel.ClientInit();
+        public SubscriberClient.PubSubServiceReference.Measurement[] GetSpecificMeasurement(string ID, string Type, System.DateTime start, System.DateTime end) {
+            return base.Channel.GetSpecificMeasurement(ID, Type, start, end);
         }
         
-        public void PublishValueChange(string Id, string Type, int Value) {
-            base.Channel.PublishValueChange(Id, Type, Value);
+        public decimal GetAverageValue(string Location, string Type, System.DateTime start, System.DateTime end) {
+            return base.Channel.GetAverageValue(Location, Type, start, end);
         }
         
-        public SubscriberClient.PubSubServiceReference.Measurement[] AllMeasurementsFromTo(string ID, System.DateTime start, System.DateTime end) {
-            return base.Channel.AllMeasurementsFromTo(ID, start, end);
+        public System.DateTime[] GetOutOfRangeMomentsByID(string ID, string Type, bool HiLo, int Limit) {
+            return base.Channel.GetOutOfRangeMomentsByID(ID, Type, HiLo, Limit);
         }
         
-        public SubscriberClient.PubSubServiceReference.Measurement[] CertainMeasurementFromTo(string ID, string Type, System.DateTime start, System.DateTime end) {
-            return base.Channel.CertainMeasurementFromTo(ID, Type, start, end);
-        }
-        
-        public System.DateTime[] HighLowByID(string ID, string Type, bool Hi, bool Lo, int Min, int Max) {
-            return base.Channel.HighLowByID(ID, Type, Hi, Lo, Min, Max);
-        }
-        
-        public decimal Average(string Location, string Type, System.DateTime start, System.DateTime end) {
-            return base.Channel.Average(Location, Type, start, end);
-        }
-        
-        public System.DateTime[] HighLowByLocation(string Location, string Type, bool Hi, bool Lo, int Min, int Max) {
-            return base.Channel.HighLowByLocation(Location, Type, Hi, Lo, Min, Max);
+        public System.DateTime[] GetOutOfRangeMomentsByLocation(string Location, string Type, bool HiLo, int Limit) {
+            return base.Channel.GetOutOfRangeMomentsByLocation(Location, Type, HiLo, Limit);
         }
     }
 }
