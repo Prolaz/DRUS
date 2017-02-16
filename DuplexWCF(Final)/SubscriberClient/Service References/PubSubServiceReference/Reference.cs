@@ -143,7 +143,7 @@ namespace SubscriberClient.PubSubServiceReference {
     public interface IPubSubService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/PublisherInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/PublisherInitResponse")]
-        string PublisherInit(string Ime, string Lokacija);
+        string PublisherInit(string Name, string Location);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://ListPublishSubscribe.Service/IPubSubService/ClientInit", ReplyAction="http://ListPublishSubscribe.Service/IPubSubService/ClientInitResponse")]
         void ClientInit();
@@ -224,8 +224,8 @@ namespace SubscriberClient.PubSubServiceReference {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public string PublisherInit(string Ime, string Lokacija) {
-            return base.Channel.PublisherInit(Ime, Lokacija);
+        public string PublisherInit(string Name, string Location) {
+            return base.Channel.PublisherInit(Name, Location);
         }
         
         public void ClientInit() {

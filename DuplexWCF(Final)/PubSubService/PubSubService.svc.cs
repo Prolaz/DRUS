@@ -172,7 +172,7 @@ namespace PubSubService
         public DateTime[] GetOutOfRangeMomentsByID(string ID, string Type, bool HiLo, int Limit)
         {
             var measurements = (from m in entities.MEASUREMENTS
-                                where m.STATION_ID == ID && m.TYPE == Type && HiLo? m.VALUE >= Limit : m.VALUE <= Limit 
+                                where m.STATION_ID == ID && m.TYPE == Type && (HiLo? m.VALUE >= Limit : m.VALUE <= Limit) 
                                 select m.TIME).ToArray();
 
             return measurements;
@@ -181,7 +181,7 @@ namespace PubSubService
         public DateTime[] GetOutOfRangeMomentsByLocation(string Location, string Type, bool HiLo, int Limit)
         {
             var measurements = (from m in entities.MEASUREMENTS
-                                where m.STATION.LOCATION.NAME == Location && m.TYPE == Type && HiLo? m.VALUE >= Limit : m.VALUE <= Limit 
+                                where m.STATION.LOCATION.NAME == Location && m.TYPE == Type && (HiLo? m.VALUE >= Limit : m.VALUE <= Limit) 
                                 select m.TIME).ToArray();
 
             return measurements;

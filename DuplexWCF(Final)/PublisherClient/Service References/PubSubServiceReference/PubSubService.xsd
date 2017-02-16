@@ -5,8 +5,8 @@
   <xs:element name="PublisherInit">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" name="Ime" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="Lokacija" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="Location" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

@@ -13,7 +13,7 @@ namespace PubSubService
     public interface IPubSubService
     {
         [OperationContract]
-        string PublisherInit(string Ime, string Lokacija);
+        string PublisherInit(string Name, string Location);
         [OperationContract]
         void ClientInit();
         [OperationContract(IsOneWay = false, IsInitiating = true)]

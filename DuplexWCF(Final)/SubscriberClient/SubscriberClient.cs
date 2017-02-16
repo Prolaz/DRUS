@@ -173,7 +173,7 @@ namespace SubscriberClient
                 }
 
                 Console.WriteLine("Press any key to continue...");
-                //Console.ReadKey();
+                Console.ReadKey();
                 if (MyEventCallbackEvent != null)
                 {
                     MyEventCallbackEvent -= callbackHandler;
@@ -221,6 +221,7 @@ namespace SubscriberClient
 
             if (publishers.Contains(ID)) return ID;
 
+            Console.WriteLine("Entered station ID does not exist.");
             return null;
         }
 
@@ -319,11 +320,10 @@ namespace SubscriberClient
                     if (p.Contains(l))
                     {
                         availableLocations.Add(l);
-                        allLocations.Remove(l);
-                        publishers.Remove(p);
                     }
                 }
             }
+            availableLocations = availableLocations.Distinct().ToList();
             Console.WriteLine("Available locations: ");
             for (int i = 0; i < availableLocations.Count; i++)
             {
@@ -333,6 +333,7 @@ namespace SubscriberClient
             string location = Console.ReadLine();
             if (availableLocations.Contains(location)) return location;
 
+            Console.WriteLine("Entered location does not exist.");
             return null;
         }
 
