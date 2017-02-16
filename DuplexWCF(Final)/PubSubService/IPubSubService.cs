@@ -16,7 +16,7 @@ namespace PubSubService
         string PublisherInit(string Name, string Location);
         [OperationContract]
         void ClientInit();
-        [OperationContract(IsOneWay = false, IsInitiating = true)]
+        [OperationContract]
         string Subscribe(string ID);
         [OperationContract]
         string Unsubscribe(string ID);
